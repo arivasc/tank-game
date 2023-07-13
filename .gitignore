@@ -2,3 +2,4 @@
 *.exe
 /src/include/SFML
 /src/lib
+*.o
