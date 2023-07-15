@@ -28,7 +28,30 @@ const sf::FloatRect Bullet::getBounds() const
 void Bullet::update()
 {
 	//Movement
-	this->shape.move(this->movementSpeed * this->direction);
+	//this->shape.move(movimento en x,moviento en y);
+	//ABAJO
+	this->shape.move(0,-(this->movementSpeed * this->direction.y));
+	//ARRIBA
+	//this->shape.move(0,(this->movementSpeed * this->direction.y));
+	//IZQUIERDA
+	//this->shape.move((this->movementSpeed * this->direction.y),0);
+	//DERECHA
+	//this->shape.move(-(this->movementSpeed * this->direction.y),0);
+}
+
+void Bullet::update(int i){
+	//TOP
+	if(i==0)
+	this->shape.move(0,-(this->movementSpeed * this->direction.y));
+	//RIGTH
+	else if (i==1)
+	this->shape.move(-(this->movementSpeed * this->direction.y),0);
+	//BOTTOM
+	else if (i==2)
+	this->shape.move(0,(this->movementSpeed * this->direction.y));
+	//LEFT
+	else if (i==3)
+	this->shape.move((this->movementSpeed * this->direction.y),0);
 }
 
 void Bullet::render(sf::RenderTarget * target)

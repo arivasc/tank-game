@@ -21,7 +21,10 @@ public:
 	//Accessor
 	const sf::FloatRect getBounds() const;
 
+	//MOVIMINETO
+
 	void update();
+	void update(int i);
 	void render(sf::RenderTarget* target);
 };
 

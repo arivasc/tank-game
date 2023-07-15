@@ -165,7 +165,7 @@ void Game::updateInput()
 		}
 		this->player->move(0.f, 1.f);
 	}
-
+	//PARA CAMBIAR CON QUE SE VA A DISPARAR
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && this->player->canAttack())
 	{
 		this->bullets.push_back(
@@ -229,9 +229,10 @@ void Game::updateBullets()
 	unsigned counter = 0;
 	for (auto *bullet : this->bullets)
 	{
-		bullet->update();
+		bullet->update(this->player->getDireccion());
 
 		//Bullet culling (top of screen)
+		//AÑADIR COLICION DE LOS BORDES
 		if (bullet->getBounds().top + bullet->getBounds().height < 0.f)
 		{
 			//Delete bullet
