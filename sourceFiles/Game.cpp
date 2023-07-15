@@ -229,7 +229,11 @@ void Game::updateBullets()
 	unsigned counter = 0;
 	for (auto *bullet : this->bullets)
 	{
-		bullet->update(this->player->getDireccion());
+		//PARA ARRIBA
+		bullet->update();
+		
+		//CON DIRECCIONES
+		//bullet->update(this->player->getDireccion());
 
 		//Bullet culling (top of screen)
 		//AÑADIR COLICION DE LOS BORDES
