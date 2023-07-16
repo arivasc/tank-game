@@ -24,6 +24,10 @@ private:
 	sf::IntRect rectSourceSprite;
 	sf::IntRect rectSourceSpriteBase;
 
+	//BARRA
+	sf::RectangleShape playerHpBar;
+	sf::RectangleShape playerHpBarBack;
+
 	int hp;
 	int hpMax;
 
@@ -31,13 +35,14 @@ private:
 	void initVariables();
 	void initTexture();
 	void initSprite();
-    
+    void initBar();
 	//Direccion
     int direc;
 
 public:
 	PlayerCircle();
 	virtual ~PlayerCircle();
+
 
 	//Accessor
 	const sf::Vector2f& getPos() const;
@@ -65,6 +70,7 @@ public:
 	const bool canAttack();
 
 	void updateAttack();
+	void updateBar();
 	void update();
 	void render(sf::RenderTarget& target);
 };

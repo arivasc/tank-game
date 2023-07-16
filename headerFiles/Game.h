@@ -7,6 +7,7 @@
 #include "PlayerCircle.h"
 #include "Bullet.h"
 #include "Enemy.h"
+#include "ObstacleB.h"
 
 class Game
 {
@@ -31,6 +32,9 @@ private:
 	//Systems
 	unsigned points;
 
+	//OBSTACLE
+	ObstacleB* obstacle;
+
 	//Player
 	//Player* player;
 	PlayerCircle* player;
@@ -43,7 +47,7 @@ private:
 	float spawnTimer;
 	float spawnTimerMax;
 	std::vector<Enemy*> enemies;
-
+	sf::Vector2f* previousPosition;
 	//Private functions
 	void initWindow();
 	void initTextures();
@@ -53,7 +57,7 @@ private:
 
 	void initPlayer();
 	void initEnemies();
-
+	void initObstacle();
 public:
 	Game();
 	virtual ~Game();
@@ -66,6 +70,7 @@ public:
 	void updateGUI();
 	void updateWorld();
 	void updateCollision();
+	void updateCollisionObstacle();
 	void updateBullets();
 	void updateEnemies();
 	void updateCombat();

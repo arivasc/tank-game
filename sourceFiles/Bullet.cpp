@@ -5,7 +5,7 @@ Bullet::Bullet()
 	
 }
 
-Bullet::Bullet(sf::Texture * texture, float pos_x, float pos_y, float dir_x, float dir_y, float movement_speed)
+Bullet::Bullet(sf::Texture * texture, float pos_x, float pos_y, float dir_x, float dir_y, float movement_speed,int direc)
 {
 	this->shape.setTexture(*texture);
 
@@ -13,6 +13,10 @@ Bullet::Bullet(sf::Texture * texture, float pos_x, float pos_y, float dir_x, flo
 	this->direction.x = dir_x;
 	this->direction.y = dir_y;
 	this->movementSpeed = movement_speed;
+	this->direc = direc;
+	if(this->direc == 1 || this->direc == 3){
+		this->shape.setRotation(90);
+	} 
 }
 
 Bullet::~Bullet()
@@ -28,29 +32,16 @@ const sf::FloatRect Bullet::getBounds() const
 void Bullet::update()
 {
 	//Movement
-	//this->shape.move(movimento en x,moviento en y);
-	//ABAJO
-	this->shape.move(0,-(this->movementSpeed * this->direction.y));
-	//ARRIBA
-	//this->shape.move(0,(this->movementSpeed * this->direction.y));
-	//IZQUIERDA
-	//this->shape.move((this->movementSpeed * this->direction.y),0);
-	//DERECHA
-	//this->shape.move(-(this->movementSpeed * this->direction.y),0);
-}
-
-void Bullet::update(int i){
-	//TOP
-	if(i==0)
-	this->shape.move(0,-(this->movementSpeed * this->direction.y));
+	if(this->direc==0)
+	this->shape.move(0,(this->movementSpeed * this->direction.y));
 	//RIGTH
-	else if (i==1)
+	else if (this->direc==1)
 	this->shape.move(-(this->movementSpeed * this->direction.y),0);
 	//BOTTOM
-	else if (i==2)
-	this->shape.move(0,(this->movementSpeed * this->direction.y));
+	else if (this->direc==2)
+	this->shape.move(0,-(this->movementSpeed * this->direction.y));
 	//LEFT
-	else if (i==3)
+	else if (this->direc==3)
 	this->shape.move((this->movementSpeed * this->direction.y),0);
 }
 

@@ -90,11 +90,26 @@ void PlayerCircle::initSprite()
 	this->spriteBase.scale(sca,sca);
 }
 
+void PlayerCircle::initBar(){
+	sf::Vector2f center(this->spriteBase.getGlobalBounds().width / 2, this->spriteBase.getGlobalBounds().height	 / 2);
+	this->playerHpBar.setSize(sf::Vector2f(100.f, 10.f));
+	this->playerHpBar.setFillColor(sf::Color::Red);
+  	//playerHpBar.scale(0.5,0.5);
+	this->playerHpBar.setPosition(this->spriteBase.getPosition() + sf::Vector2f(42.0f, 4.0f) + center - sf::Vector2f(this->spriteBase.getGlobalBounds().width / 2, this->spriteBase.getGlobalBounds().height/ 2));
+
+	this->playerHpBarBack = playerHpBar;
+  	//playerHpBarBack.scale(0.5,0.5);
+	this->playerHpBarBack.setFillColor(sf::Color(255, 255, 255, 255));
+	//playerHpBarBack.setFillColor(sf::Color::White);
+	//this->playerHpBar.setSize(sf::Vector2f(playerHpBar.getSize().x * 0.8, playerHpBar.getSize().y));
+}
+
 PlayerCircle::PlayerCircle()
 {
 	this->initVariables();
 	this->initTexture();
 	this->initSprite();
+	this->initBar();
 }
 
 PlayerCircle::~PlayerCircle()
@@ -149,6 +164,8 @@ void PlayerCircle::setPosition(const sf::Vector2f pos)
 	}else{
 		this->sprite.setPosition(this->spriteBase.getPosition() + sf::Vector2f(4.0f, 42.0f) + center - sf::Vector2f(this->spriteBase.getGlobalBounds().width / 2, this->spriteBase.getGlobalBounds().height/ 2));
 	}
+	this->playerHpBar.setPosition(this->spriteBase.getPosition() + sf::Vector2f(42.0f, 4.0f) + center - sf::Vector2f(this->spriteBase.getGlobalBounds().width / 2, this->spriteBase.getGlobalBounds().height/ 2));
+	this->playerHpBarBack.setPosition(this->playerHpBar.getPosition());
 }
 
 void PlayerCircle::setPosition(const float x, const float y)
@@ -160,6 +177,8 @@ void PlayerCircle::setPosition(const float x, const float y)
 	}else{
 		this->sprite.setPosition(this->spriteBase.getPosition() + sf::Vector2f(4.0f, 42.0f) + center - sf::Vector2f(this->spriteBase.getGlobalBounds().width / 2, this->spriteBase.getGlobalBounds().height/ 2));
 	}
+	this->playerHpBar.setPosition(this->spriteBase.getPosition() + sf::Vector2f(42.0f, 4.0f) + center - sf::Vector2f(this->spriteBase.getGlobalBounds().width / 2, this->spriteBase.getGlobalBounds().height/ 2));
+	this->playerHpBarBack.setPosition(this->playerHpBar.getPosition());
 }
 
 void PlayerCircle::setDireccion(const int x){
@@ -218,6 +237,8 @@ void PlayerCircle::move(const float dirX, const float dirY)
 {
 	this->sprite.move(this->movementSpeed * dirX, this->movementSpeed * dirY);
 	this->spriteBase.move(this->movementSpeed * dirX, this->movementSpeed * dirY);
+	this->playerHpBar.move(this->movementSpeed * dirX, this->movementSpeed * dirY);
+	this->playerHpBarBack.move(this->movementSpeed * dirX, this->movementSpeed * dirY);
 }
 
 const bool PlayerCircle::canAttack()
@@ -237,6 +258,10 @@ void PlayerCircle::updateAttack()
 		this->attackCooldown += 0.5f;
 }
 
+void PlayerCircle::updateBar(){
+	float hpPercent = static_cast<float>(this->hp) / this->hpMax;
+	this->playerHpBar.setSize(sf::Vector2f(100.f * hpPercent, this->playerHpBar.getSize().y));
+}
 //Functions
 void PlayerCircle::update()
 {
@@ -247,4 +272,6 @@ void PlayerCircle::render(sf::RenderTarget& target)
 {
 	target.draw(this->spriteBase);
 	target.draw(this->sprite);
+	target.draw(this->playerHpBarBack);
+	target.draw(this->playerHpBar);
 }

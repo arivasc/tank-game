@@ -3,7 +3,7 @@
 //Private functions
 void Game::initWindow()
 {
-	this->window = new sf::RenderWindow(sf::VideoMode(800, 600), "Swaglords of Space - Game 3", sf::Style::Close | sf::Style::Titlebar);
+	this->window = new sf::RenderWindow(sf::VideoMode(1000, 700), "Swaglords of Space - Game 3", sf::Style::Close | sf::Style::Titlebar);
 	this->window->setFramerateLimit(144);
 	this->window->setVerticalSyncEnabled(false);
 }
@@ -26,7 +26,6 @@ void Game::initGUI()
 	this->pointText.setCharacterSize(20);
 	this->pointText.setFillColor(sf::Color::White);
 	this->pointText.setString("test");
-
 	this->gameOverText.setFont(this->font);
 	this->gameOverText.setCharacterSize(60);
 	this->gameOverText.setFillColor(sf::Color::Red);
@@ -63,6 +62,11 @@ void Game::initPlayer()
 {
 	//this->player = new Player();
 	this->player = new PlayerCircle();
+	this->previousPosition = new sf::Vector2f(this->player->getPosCircle());
+}
+
+void Game::initObstacle(){
+	this->obstacle = new ObstacleB(3*54.1f,3*54.1f);
 }
 
 void Game::initEnemies()
@@ -79,7 +83,7 @@ Game::Game()
 	this->initGUI();
 	this->initWorld();
 	this->initSystems();
-
+	this->initObstacle();
 	this->initPlayer();
 	this->initEnemies();
 }
@@ -88,7 +92,8 @@ Game::~Game()
 {
 	delete this->window;
 	delete this->player;
-
+	delete this->obstacle;
+	delete this->previousPosition;
 	//Delete textures
 	for (auto &i : this->textures)
 	{
@@ -165,7 +170,7 @@ void Game::updateInput()
 		}
 		this->player->move(0.f, 1.f);
 	}
-	//PARA CAMBIAR CON QUE SE VA A DISPARAR
+
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && this->player->canAttack())
 	{
 		this->bullets.push_back(
@@ -175,7 +180,8 @@ void Game::updateInput()
 			this->player->getPos().y, 
 			0.f, 
 			-1.f, 
-			5.f
+			5.f,
+			this->player->getDireccion()
 			)
 		);
 	}
@@ -224,20 +230,27 @@ void Game::updateCollision()
 	}
 }
 
+void Game::updateCollisionObstacle(){
+	if(this->player->getBoundsCircle().intersects(this->obstacle->getBounds())){
+		this->player->setPosition(*this->previousPosition);
+	}else{
+		*this->previousPosition = this->player->getPosCircle();
+	}
+};
+
+
 void Game::updateBullets()
 {
 	unsigned counter = 0;
 	for (auto *bullet : this->bullets)
 	{
-		//PARA ARRIBA
 		bullet->update();
-		
-		//CON DIRECCIONES
-		//bullet->update(this->player->getDireccion());
 
-		//Bullet culling (top of screen)
-		//AÑADIR COLICION DE LOS BORDES
-		if (bullet->getBounds().top + bullet->getBounds().height < 0.f)
+		//Bullet culling
+		if (bullet->getBounds().top + bullet->getBounds().height < 0.f ||
+		    bullet->getBounds().top >= this->window->getSize().y ||
+			bullet->getBounds().left >= this->window->getSize().x ||
+			bullet->getBounds().left + bullet->getBounds().width < 0.f)
 		{
 			//Delete bullet
 			delete this->bullets.at(counter);
@@ -314,6 +327,8 @@ void Game::update()
 
 	this->updateCollision();
 
+	this->updateCollisionObstacle();
+
 	this->updateBullets();
 
 	this->updateEnemies();
@@ -321,7 +336,7 @@ void Game::update()
 	this->updateCombat();
 
 	this->updateGUI();
-
+	this->player->updateBar();
 	this->updateWorld();
 }
 
@@ -346,6 +361,8 @@ void Game::render()
 
 	//Draw all the stuffs
 	this->player->render(*this->window);
+
+	this->obstacle->render(*this->window);
 
 	for (auto *bullet : this->bullets)
 	{

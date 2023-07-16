@@ -12,19 +12,16 @@ private:
 
 	sf::Vector2f direction;
 	float movementSpeed;
-
+	int direc; 
 public:
 	Bullet();
-	Bullet(sf::Texture* texture, float pos_x, float pos_y, float dir_x, float dir_y, float movement_speed);
+	Bullet(sf::Texture* texture, float pos_x, float pos_y, float dir_x, float dir_y, float movement_speed,int direc);
 	virtual ~Bullet();
 
 	//Accessor
 	const sf::FloatRect getBounds() const;
 
-	//MOVIMINETO
-
 	void update();
-	void update(int i);
 	void render(sf::RenderTarget* target);
 };
 
