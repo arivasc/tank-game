@@ -93,7 +93,7 @@ void PlayerCircle::initSprite()
 void PlayerCircle::initBar(){
 	sf::Vector2f center(this->spriteBase.getGlobalBounds().width / 2, this->spriteBase.getGlobalBounds().height	 / 2);
 	this->playerHpBar.setSize(sf::Vector2f(50.f, 10.f));
-	this->playerHpBar.setFillColor(sf::Color::Red);
+	this->playerHpBar.setFillColor(sf::Color::Green);
   	//playerHpBar.scale(0.5,0.5);
 	this->playerHpBar.setPosition(this->spriteBase.getPosition() + sf::Vector2f(42.0f, 4.0f) + center - sf::Vector2f(this->spriteBase.getGlobalBounds().width / 2, this->spriteBase.getGlobalBounds().height/ 2));
 

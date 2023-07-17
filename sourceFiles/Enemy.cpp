@@ -15,7 +15,8 @@ void Enemy::initShape()
 {
 	this->shape.setRadius(this->pointCount * 5);
 	this->shape.setPointCount(this->pointCount);
-	this->shape.setFillColor(sf::Color(rand() % 255 + 1, rand() % 255 + 1, rand() % 255 + 1, 255));
+	//this->shape.setFillColor(sf::Color(rand() % 255 + 1, rand() % 255 + 1, rand() % 255 + 1, 255));
+	this->shape.setFillColor(sf::Color::Red);
 }
 
 Enemy::Enemy(float pos_x, float pos_y)
