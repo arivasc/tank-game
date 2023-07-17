@@ -3,7 +3,7 @@
 //Private functions
 void Game::initWindow()
 {
-	this->window = new sf::RenderWindow(sf::VideoMode(1300, 1300), "Swaglords of Space - Game 3", sf::Style::Close | sf::Style::Titlebar);
+	this->window = new sf::RenderWindow(sf::VideoMode(1080, 720), "Tank - Game");
 	this->window->setFramerateLimit(144);
 	this->window->setVerticalSyncEnabled(false);
 }
