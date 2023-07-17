@@ -67,8 +67,9 @@ void Game::initPlayer()
 
 void Game::initObstacle(){
 	this->obstacle = new ObstacleB(3*54.1f,650.f);
-	this->obstacles.push_back(new ObstacleB(3*54.1f,650.f));
-	this->obstacles.push_back(new ObstacleB(650.f,650.f));
+	this->obstacles.push_back(new ObstacleB(300.f,650.f));
+	this->obstacles.push_back(new ObstacleB(850.f,650.f));
+	this->obstacles.push_back(new ObstacleB(0.f,650.f));
 }
 
 void Game::initEnemies()
