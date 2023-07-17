@@ -8,6 +8,7 @@
 #include "Bullet.h"
 #include "Enemy.h"
 #include "ObstacleB.h"
+#include <vector>
 
 class Game
 {
@@ -34,7 +35,7 @@ private:
 
 	//OBSTACLE
 	ObstacleB* obstacle;
-
+	std::vector<ObstacleB*> obstacles;
 	//Player
 	//Player* player;
 	PlayerCircle* player;

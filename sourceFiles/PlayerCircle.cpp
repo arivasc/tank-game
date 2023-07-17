@@ -2,7 +2,7 @@
 
 void PlayerCircle::initVariables()
 {
-	this->movementSpeed = 2.f;
+	this->movementSpeed = 4.f;
 
 	this->attackCooldownMax = 10.f;
 	this->attackCooldown = this->attackCooldownMax;
@@ -75,7 +75,7 @@ void PlayerCircle::initSprite()
 	this->sprite.setTextureRect(this->rectSourceSprite);
 
 	//Resize the sprite
-	this->sprite.scale(3.0f, 3.0f);
+	this->sprite.scale(2.f, 2.f);
 	this->sprite.setPosition(this->spriteBase.getPosition() + sf::Vector2f(42.0f, 4.0f) + center - sf::Vector2f(this->spriteBase.getGlobalBounds().width / 2, this->spriteBase.getGlobalBounds().height/ 2));
 	//this->sprite.setOrigin(0.f,72.f);
 	//this->sprite.setOrigin(this->sprite.getGlobalBounds().width/2,this->sprite.getGlobalBounds().height/2);
@@ -86,13 +86,13 @@ void PlayerCircle::initSprite()
 	this->rectSourceSpriteBase = sf::IntRect(32, 32, 160, 160);
 	this->spriteBase.setTexture(this->textureBase);
 	this->spriteBase.setTextureRect(this->rectSourceSpriteBase);
-	float sca= (3*54.f)/160.f;
+	float sca= (2*54.f)/160.f;
 	this->spriteBase.scale(sca,sca);
 }
 
 void PlayerCircle::initBar(){
 	sf::Vector2f center(this->spriteBase.getGlobalBounds().width / 2, this->spriteBase.getGlobalBounds().height	 / 2);
-	this->playerHpBar.setSize(sf::Vector2f(100.f, 10.f));
+	this->playerHpBar.setSize(sf::Vector2f(50.f, 10.f));
 	this->playerHpBar.setFillColor(sf::Color::Red);
   	//playerHpBar.scale(0.5,0.5);
 	this->playerHpBar.setPosition(this->spriteBase.getPosition() + sf::Vector2f(42.0f, 4.0f) + center - sf::Vector2f(this->spriteBase.getGlobalBounds().width / 2, this->spriteBase.getGlobalBounds().height/ 2));
@@ -260,7 +260,7 @@ void PlayerCircle::updateAttack()
 
 void PlayerCircle::updateBar(){
 	float hpPercent = static_cast<float>(this->hp) / this->hpMax;
-	this->playerHpBar.setSize(sf::Vector2f(100.f * hpPercent, this->playerHpBar.getSize().y));
+	this->playerHpBar.setSize(sf::Vector2f(50.f * hpPercent, this->playerHpBar.getSize().y));
 }
 //Functions
 void PlayerCircle::update()

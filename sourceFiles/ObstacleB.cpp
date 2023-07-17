@@ -11,6 +11,7 @@ void ObstacleB::initSprite(){
     obstacles.push_back(new sf::Sprite(this->texture,rectSourceSprite));
     obstacles.push_back(new sf::Sprite(this->texture,rectSourceSprite));
     obstacles.push_back(new sf::Sprite(this->texture,rectSourceSprite));
+    obstacles.push_back(new sf::Sprite(this->texture,rectSourceSprite));
     for(sf::Sprite* s : this->obstacles){
         s->scale(0.5,0.5);
     }
