@@ -3,7 +3,7 @@
 //Private functions
 void Game::initWindow()
 {
-	this->window = new sf::RenderWindow(sf::VideoMode(1080, 720), "Tank - Game", sf::Style::Close | sf::Style::Titlebar);
+	this->window = new sf::RenderWindow(sf::VideoMode(1300, 1300), "Swaglords of Space - Game 3", sf::Style::Close | sf::Style::Titlebar);
 	this->window->setFramerateLimit(144);
 	this->window->setVerticalSyncEnabled(false);
 }
@@ -66,7 +66,10 @@ void Game::initPlayer()
 }
 
 void Game::initObstacle(){
-	this->obstacle = new ObstacleB(3*54.1f,3*54.1f);
+	this->obstacle = new ObstacleB(3*54.1f,650.f);
+	this->obstacles.push_back(new ObstacleB(300.f,650.f));
+	this->obstacles.push_back(new ObstacleB(850.f,650.f));
+	this->obstacles.push_back(new ObstacleB(0.f,650.f));
 }
 
 void Game::initEnemies()
@@ -231,10 +234,12 @@ void Game::updateCollision()
 }
 
 void Game::updateCollisionObstacle(){
-	if(this->player->getBoundsCircle().intersects(this->obstacle->getBounds())){
-		this->player->setPosition(*this->previousPosition);
-	}else{
-		*this->previousPosition = this->player->getPosCircle();
+	for(auto *obs : this->obstacles){
+		if(this->player->getBoundsCircle().intersects(obs->getBounds())){
+			this->player->setPosition(*this->previousPosition);
+		}else{
+			*this->previousPosition = this->player->getPosCircle();
+		}
 	}
 };
 
@@ -361,8 +366,11 @@ void Game::render()
 
 	//Draw all the stuffs
 	this->player->render(*this->window);
+	for(auto *obs : this->obstacles){
+		obs->render(*this->window);
+	}
 
-	this->obstacle->render(*this->window);
+	//this->obstacle->render(*this->window);
 
 	for (auto *bullet : this->bullets)
 	{
