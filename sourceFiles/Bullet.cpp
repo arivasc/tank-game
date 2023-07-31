@@ -4,7 +4,8 @@ Bullet::Bullet()
 {
 	
 }
-
+// Actualiza la posiccion de la bala en funcion de su movimiento en nuestro caso con 
+// direccion y velocidad. Dependiendo del valor de direc de movera en una direccion
 Bullet::Bullet(sf::Texture * texture, float pos_x, float pos_y, float dir_x, float dir_y, float movement_speed,int direc)
 {
 	this->shape.setTexture(*texture);
@@ -24,11 +25,15 @@ Bullet::~Bullet()
 
 }
 
+// limites
 const sf::FloatRect Bullet::getBounds() const
 {
 	return this->shape.getGlobalBounds();
 }
 
+// dibujar la bala en la ventana o en el objetivo (target) proporcionado. 
+// La función draw() de la clase "sf::RenderTarget" se utiliza para dibujar 
+// la forma ("shape") de la bala en el objetivo que se pasa como argumento.
 void Bullet::update()
 {
 	//Movement
@@ -45,6 +50,7 @@ void Bullet::update()
 	this->shape.move((this->movementSpeed * this->direction.y),0);
 }
 
+//dibujar por acciones
 void Bullet::render(sf::RenderTarget * target)
 {
 	target->draw(this->shape);

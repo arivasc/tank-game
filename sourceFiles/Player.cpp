@@ -2,17 +2,17 @@
 
 void Player::initVariables()
 {
+	// Inicializa las variables del jugador.
 	this->movementSpeed = 2.f;
-
 	this->attackCooldownMax = 10.f;
 	this->attackCooldown = this->attackCooldownMax;
-
 	this->hpMax = 100;
 	this->hp = this->hpMax;
-
-	this->direc = DTOP;
+	this->direc = DTOP;	// Inicializa la dirección del jugador.
 }
 
+// carga la textura del jugador desde un archivo llamado "tankR.png". 
+// Si la carga falla, muestra un mensaje de error en la consola.
 void Player::initTexture()
 {
 	//Load a texture from file
@@ -20,13 +20,15 @@ void Player::initTexture()
 	{
 		std::cout << "ERROR::PLAYER::INITTEXTURE::Could not load texture file." << "\n";
 	}
-
 	// if (!this->textureBase.loadFromFile("Textures/circulosPower.png"))
 	// {
 	// 	std::cout << "ERROR::PLAYER::INITTEXTURE::Could not load texture file." << "\n";
 	// }
 }
 
+// inicializa el sprite del jugador, estableciendo su textura y recorte. Configura el 
+// sprite para que tenga un origen en (0,0) y lo escala para que sea tres veces más 
+// grande que la textura original.
 void Player::initSprite()
 {
 	// int tRightHorizonalWidth = 48;
@@ -54,8 +56,6 @@ void Player::initSprite()
 	//VerticalTOp
 	//this->rectSourceSprite = sf::IntRect(130.0f, 2.0f, tTopVerticalWidth,tTopVerticalHeight);
 	this->rectSourceSprite = sf::IntRect(130, 2, 25,48);
-	
-
     //Horizontal left
 	//this->rectSourceSprite = sf::IntRect(230.0f, 16.0f, tLeftHorizonalWidth,tLeftHorizonalHeight);
 	//this->rectSourceSprite = sf::IntRect(230, 16, 48,25);
@@ -67,7 +67,6 @@ void Player::initSprite()
 	//45
 	//sf::IntRect rectSourceSprite(62.0f, 7.0f, 48,40);
 
-
 	//Set the texture to the sprite
 	this->sprite.setTexture(this->texture);
 	this->sprite.setTextureRect(this->rectSourceSprite);
@@ -75,8 +74,6 @@ void Player::initSprite()
 	//Resize the sprite
 	this->sprite.scale(3.0f, 3.0f);
 	//this->sprite.setOrigin(this->sprite.getGlobalBounds().width/2,this->sprite.getGlobalBounds().height/2);
-
-
 
 	//SPRITE BASE
     sf::Sprite spriteBase;
@@ -89,6 +86,8 @@ void Player::initSprite()
 	spriteBase.scale(sca,sca);
 }
 
+// Este es el constructor de la clase "Player", que llama a las 
+// funciones de inicialización del jugador en su creación.
 Player::Player()
 {
 	this->initVariables();
@@ -96,10 +95,8 @@ Player::Player()
 	this->initSprite();
 }
 
-Player::~Player()
-{
-
-}
+// Destructor
+Player::~Player() {}
 
 const sf::Vector2f & Player::getPos() const
 {
@@ -153,6 +150,10 @@ void Player::loseHp(const int value)
 		this->hp = 0;
 }
 
+// se utilizan para cambiar el recorte del sprite 
+// del jugador y hacer que se muestre en diferentes
+// direcciones o animaciones.
+
 void Player::spingRight(){
 	this->rectSourceSprite = sf::IntRect(7.0f, 16.0f, 48,25);
 	this->sprite.setTextureRect(rectSourceSprite);
@@ -171,12 +172,20 @@ void Player::spingLeft(){
 	this->sprite.setTextureRect(rectSourceSprite);
 }
 
+
+// permite mover al jugador en función de las componentes 
+// de dirección proporcionadas (dirX, dirY) y su velocidad
+// de movimiento.
 void Player::move(const float dirX, const float dirY)
 {
 	this->sprite.move(this->movementSpeed * dirX, this->movementSpeed * dirY);
 	//this->spriteBase.move(this->movementSpeed * dirX, this->movementSpeed * dirY);
 }
 
+// canAttack() permite verificar si el jugador puede atacar en función del tiempo transcurrido 
+// desde el último ataque. Si el tiempo de reutilización de ataque (attackCooldown) 
+// ha alcanzado el valor máximo (attackCooldownMax), entonces se puede realizar un 
+// nuevo ataque y se reinicia el tiempo de reutilización.
 const bool Player::canAttack()
 {
 	if (this->attackCooldown >= this->attackCooldownMax)
@@ -188,18 +197,25 @@ const bool Player::canAttack()
 	return false;
 }
 
+// updateAttack() actualiza el tiempo de reutilización de ataque (attackCooldown) 
+// sumándole un valor constante de 0.5f al tiempo actual. Esto permite
+// que el tiempo de reutilización aumente y eventualmente el jugador 
+// pueda atacar nuevamente.
 void Player::updateAttack()
 {
 	if(this->attackCooldown < this->attackCooldownMax)
 		this->attackCooldown += 0.5f;
 }
 
+// update() actualizar el estado del jugador, en este caso, 
+// solo se actualiza el tiempo de reutilización de ataque llamando a la función "updateAttack()".
 //Functions
 void Player::update()
 {
 	this->updateAttack();
 }
 
+//dibujar por acciones
 void Player::render(sf::RenderTarget& target)
 {
 	//target.draw(this->spriteBase);
